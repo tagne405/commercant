@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navUser.html">
+
+<head>
+
+    <title>Vente</title>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/admin/orderDetailById?id=" + 40);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if(xhr.status === 200){
+                    // toastr.options.timeOut = 2000; // 2 seconds
+                    // toastr.options.progressBar = true;
+                    // toastr.options.extendedTimeOut = 1000; // 1 second extension on hover
+                    // toastr.success("suppression reussie");
+                    // reload the cart data and update table
+                    let cartTable = document.querySelector("orderDetailsTable");
+                    // alert(cartTable);
+                    cartTable.innerHTML = xhr.responseText;
+
+                }
+            };
+            xhr.send();
+        })
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var table = document.getElementById("example");
+            var buttons = table.getElementsByTagName("button");
+
+            Array.from(buttons).forEach(function(button) {
+                button.addEventListener("click", function() {
+                    var orderId = this.getAttribute("data-id");
+                    document.getElementById("idEdit").value = orderId;
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/admin/orderDetailById?id=" + 40);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            alert(xhr.responseText);
+                            var order = (xhr.responseText);
+                            if (order) {
+                                let cartTable = document.getElementById("orderDetailsTable");
+                                // alert(cartTable);
+                                cartTable.innerHTML = xhr.responseText;
+
+                                var orderDetails = order.orderDetail;
+                                var orderDetailsTable = document.getElementById("orderDetailsTable");
+                                orderDetailsTable.innerHTML = order;
+                                alert(orderDetails);
+                                alert(orderDetailsTable);
+                                orderDetails.forEach(function(orderDetail) {
+                                    th:each=" p: ${orderDetail}"
+                                    var productName = p.produit.nom;
+                                    var productPhoto = orderDetail.produit.photo;
+                                    var productQuantity = orderDetail.quantite;
+
+                                    var row = document.createElement("tr");
+                                    var productNameCell = document.createElement("td");
+                                    var productPhotoCell = document.createElement("td");
+                                    var productQuantityCell = document.createElement("td");
+
+                                    productNameCell.textContent = productName;
+                                    productPhotoCell.innerHTML = '<img src="data:image/jpg;base64,' + productPhoto + '" style="width: 30%; height: 70%;" alt="lol">';
+                                    productQuantityCell.textContent = productQuantity;
+
+                                    row.appendChild(productNameCell);
+                                    row.appendChild(productPhotoCell);
+                                    row.appendChild(productQuantityCell);
+
+                                    orderDetailsTable.appendChild(row);
+                                });
+                            } else {
+                                alert("La réponse ne contient pas les détails de la commande attendus.");
+                            }
+                        } else if (xhr.readyState === 4) {
+                            alert("Une erreur s'est produite lors de la récupération des détails de la commande.");
+                        }
+                    };
+                    xhr.send();
+                });
+            });
+        });
+
+    </script>
+
+
+
+</head>
+
+<body class="" style="background-color: rgb(232, 231, 231);">
+
+    
+    <div layout:fragment="content">
+
+        <!-- cardBody -->
+        <div class="container-fluid" id="largerBody">
+
+            <section class="body-header">
+                <h1>Liste des Commandes Valides</h1>
+            </section>
+
+            <!-- <section class="row container"> -->
+            <!-- <div> -->
+            <div class="container bg-white pt-4 shadow-lg p-3 mb-5 rounded" id="hideBody" style="border-radius: 5px;">
+                <div>
+                    <div th:if="${success}" >
+                        <p th:text="${success}" class="text-center alert alert-success"></p>
+                    </div>
+                    <div th:if="${failed}">
+                        <h3 th:text="${failed}" class="text-center alert alert-warning"></h3>
+                    </div>
+                    <div th:if="${vide}">
+                        <h4 class="text-center alert alert-warning" th:text="${vide}"></h4>
+                    </div>
+                </div>
+                <table id="example" class="table table-striped table-bordered table-sm" style="width:100%; height: 10rem; font-size: smaller;box-shadow: #0a0a0a">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th >Date de Commande</th>
+                            <th>Prix Total</th>
+                            <th>Status de la Commande</th>
+                            <th>Client</th>
+                            <th>Details</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each=" p: ${orderDetailValided}">
+                            <td th:text="${p.id}"></td>
+                            <td th:text="${p.orderDate}"> </td>
+                            <td th:text="${p.prixTotal}"> </td>
+                            <td class="btn-success" th:text="${p.statusOrdre}"></td>
+                            <td th:text="${p.customer.firstName}"></td>
+                            <td>
+                                <a class="btn btn-primary" th:href="@{/admin/orderDetailById(id=${p.id})}" >detail</a>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#exempleModal'+${p.id}" data-whatever="@mdo" data-id="${p.id}">Détails</button>
+                                <div th:value="${p.id}" class="modal fade" th:id="'exempleModal'+${p.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Description</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="idEdit" class="col-form-label">ID:</label>
+                                                    <input type="text" class="form-control" id="idEdit" th:value="${p.id}" readonly>
+                                                </div>
+                                                <table>
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Nom</th>
+                                                        <th>Photo</th>
+                                                        <th>Quantité</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="orderDetailsTable">
+                                                    <!-- Les détails de la commande seront ajoutés ici -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td ><a  th:href="@{/admin/saveOrder(id = ${p.id})}" class="btn btn-outline-warning">Supprimer</a>
+                                <!--<a th:if="${p.is_delete == true}" th:href="@{/admin/enabledProduit/{id} (id = ${p.id})}" class="btn btn-warning">Activer</a>
+                                <a th:if="${p.is_delete == false}" th:href="@{/admin/deleteProduit/{id} (id = ${p.id})}" class="btn btn-danger">Suprimer</a>-->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+<!--<script th:src="@{/javascipt/OrderDetail.js}"></script>-->
+
+</html>

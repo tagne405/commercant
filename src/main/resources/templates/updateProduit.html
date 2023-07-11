@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navUser.html">
+<head>
+    
+    <title>Vente</title>
+</head>
+<body class="" style="background-color: rgb(232, 231, 231);">
+
+
+
+    <div layout:fragment="content">
+
+        <div class=" " id="largerBody">
+
+            <section class="body-header">
+                <h1>modification des Produits</h1>
+            </section>
+
+                <form th:action="@{/admin/updateProduit/{id} (id = ${produit.id})}" method="POST" th:object="${Produit}"  enctype="multipart/form-data">
+
+                    <div>
+                        <div class=" " style=" width: 38%; margin: 5% 30%;">
+                            <div class="text-center" style="font-weight: bold; font-size: x-large; font-style: italic; ">Modi du Produit</div>
+                            <div class="mb-3">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="name" class="form-control" name="nom" id="" placeholder="joe" th:value="${produit.nom}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="categories" class="form-label">Category</label>
+                                <select name="categories" th:field="${produit.Category}" id="categories" class="form-control">
+                                    <option th:value="null">-Select-</option>
+                                    <option th:each=" categories :${categories}"
+                                            th:value = "${categories.id}"
+                                            th:text="${categories.nom}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea type="text" class="form-control" id="description" name="description" placeholder=" " th:field="${produit.description}"  required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <input type="hidden" th:value="${produit.photo}"/>
+                                <label for="fileImage" class="form-label">Photo</label>
+                                <img style="width: 40%; height: 90%;" th:src = "'data:image/jpg;base64,' + ${produit.photo}" alt="lol">
+                                <input type="file" class="" id="fileImage" name="image" accept="image/png, image/jpg">
+                            </div>
+                            <div class="mb-3">
+                                <label for="prix" class="form-label">Prix</label>
+                                <input type="number" class="form-control" id="exampleFormControlInput1" name="prix" placeholder="" th:field="${produit.prix}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantite" class="form-label">Quantite</label>
+                                <input type="number" class="form-control" id="quantite" placeholder="" th:field="${produit.quantite}" required>
+                            </div>
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button type="submit" style="background: #e3f2fd; margin-left: 25%; font-size: large; font-weight: bold;" class="btn btn-sm">
+                                    <a  style="text-decoration: none;">Update</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                
+            <!-- </div> -->
+                
+            
+        <!-- </section>     -->
+    </div>
+    <!-- EndCard -->
+
+
+    </div>
+
+    <!-- cardBody -->
+        
+</body>
+</html>

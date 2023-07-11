@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navUser.html">
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body class="" style="background-color: rgb(232, 231, 231);">
+
+    <div layout:fragment="content" mt>
+
+        <div class="container-fluid" >
+<!--            style="margin-left:17%;"-->
+
+            <section class="body-header">
+                <h1>Dashboard</h1>
+            </section>
+
+            <div class="row">
+
+                <!-- Earnings (Monthly) Card Example -->
+                <div class="col-xl-3 col-md-5 mb-5">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xxl-center font-weight-bold text-primary text-uppercase mb-1 text-gray-900">
+                                        Totals Vendu</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><h1>4000Fcfa</h1></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Earnings (Annual) Card Example -->
+                <div class="col-xl-3 col-md-6 mb-5">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xxl-center font-weight-bold text-success text-uppercase mb-1">
+                                        Nombre de Produit</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" ><h1 th:text="${produit}"></h1></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Card Example -->
+                <div class="col-xl-3 col-md-6 mb-5">
+                    <div class="card border-left-info shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xxl-center font-weight-bold text-info text-uppercase mb-1">
+                                        Nombre d'utilisateur
+                                    </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" ><h1 th:text="${client}"></h1></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-user-friends fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Requests Card Example -->
+                <div class="col-xl-3 col-md-6 mb-5">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xxl-center font-weight-bold text-warning text-uppercase mb-1">
+                                        Vendu Aujourd'hui</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"><h1>18</h1></div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-magnet fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<!--            <section class="row">-->
+<!--                <div class="col-lg-3">-->
+<!--                    <div class="small-box " style="width: 17rem; height: 10rem;background: #00c0ef;">-->
+<!--                        <div class="inner">-->
+<!--                            <h3>100K Fcfa</h3>-->
+<!--                            <p>Totals Vendu</p>-->
+<!--                        </div>-->
+<!--                        <div class="icon">-->
+<!--                            <i class="fa fa-shopping-cart"></i>-->
+<!--                        </div>-->
+<!--                            <a href="borrow.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-3" >-->
+<!--                    <div class="small-box" style="width: 17rem; height: 10rem; background: #00a65a;">-->
+<!--                        <div class="inner">-->
+<!--                            <h3 th:text="${produit}"></h3>-->
+<!--                            <p>Nombre de Produit</p>-->
+<!--                        </div>-->
+<!--                        <div class="icon">-->
+<!--                            <i class="fa fa-barcode"></i>-->
+<!--                        </div>-->
+<!--                            <a th:href="@{/admin/listeProduit}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-3" th:each="client:${client}">-->
+<!--                    <div class="small-box" style="width: 17rem; height: 10rem;background: #f39c12;">-->
+<!--                        <div class="inner">-->
+<!--                            <h3 th:text="${client}"></h3>-->
+<!--                            <p>Nombre d'utilisateur </p>-->
+<!--                        </div>-->
+<!--                        <div class="icon">-->
+<!--                            <i class="fa fa-users"></i>-->
+<!--                        </div>-->
+<!--                             <a th:href="@{/admin/user}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-3 " >-->
+<!--                    <div class="small-box " style="width: 17rem; height: 10rem;background: #dd4b39;">-->
+<!--                        <div class="inner">-->
+<!--                            <h3>0 Fcfa</h3>-->
+<!--                            <p>Vendu Aujourd'hui</p>-->
+<!--                        </div>-->
+<!--                        <div class="icon">-->
+<!--                            <i class="fa fa-magnet" aria-hidden="true"></i>-->
+<!--                        </div>-->
+<!--                            <a href="borrow.php" class="small-box-footer">More inf <i class="fa fa-arrow-circle-right"></i></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </section>-->
+        </div>
+    <!-- EndCard -->
+    </div>
+    
+    
+<!-- </section>       -->
+</body>
+</html>

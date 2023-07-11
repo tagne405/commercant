@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    
+    <meta charset="UTF-8">
+    <script>
+        function DeleteProduct(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/delete-cart/'+id);
+
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if(xhr.status === 200){
+
+                    toastr.error("Suppression reussie.");
+
+                    setInterval(function() {
+                        laodPage();
+                    }, 1000);
+
+                }
+            };
+
+            xhr.send();
+
+        }
+    </script>
+
+<!--    <script>-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            // Initialise Toastr-->
+<!--            toastr.options = {-->
+<!--                "positionClass": "toast-center",-->
+<!--                "progressBar": true,-->
+<!--                "showDuration": "300",-->
+<!--                "hideDuration": "1000",-->
+<!--                "timeOut": "2000",-->
+<!--                "extendedTimeOut": "1000",-->
+<!--                "showEasing": "swing",-->
+<!--                "hideEasing": "linear",-->
+<!--                "showMethod": "fadeIn",-->
+<!--                "hideMethod": "fadeOut"-->
+<!--            };-->
+
+<!--            // Ajouter un gestionnaire d'événements "click" au bouton-->
+
+<!--        });-->
+<!--    </script>-->
+
+<!--    <script>-->
+<!--        function addtocart(id) {-->
+<!--            var xhr = new XMLHttpRequest();-->
+<!--            xhr.open('GET', '/addToCart/'+id);-->
+<!--            var params = "id="+id;-->
+<!--            xhr.onload = function() {-->
+<!--                if (xhr.status === 200) {-->
+<!--                    toastr.success("Le produit a été ajouté au panier.");-->
+
+<!--                    setTimeout(function() {-->
+<!--                        laodPage();-->
+<!--                    }, 3000);-->
+
+<!--                } else if (xhr.status === 401) { // code 401 : non autorisé-->
+<!--                    alert(xhr.responseText); // affiche un message demandant à l'utilisateur de se connecter-->
+<!--                } else {-->
+<!--                    console.log('Request failed. Returned status of ' + xhr.status);-->
+<!--                }-->
+<!--            };-->
+<!--            xhr.send();-->
+<!--        }-->
+<!--    </script>-->
+
+
+
+
+    <link rel="shortcut icon" href="/images/carte.jpg">
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/fonts/css/all.min.css}">
+
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/css/all.css}">
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/css/all.min.css}">
+
+<!--    //sweet alert-->
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/sweetalert2.min.css}">
+    <script th:src="@{/css/sweetalert2.min.js}" type="text/javascript"></script>
+
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/css.css}">
+
+    <title>Acceuil</title>
+</head>
+<body>
+
+    <header >
+        <a href="#" class="logo">CASH MARKET</a>
+        <ul class="navmenu">
+            <li><a th:href="@{/index}">Acceuil</a></li>
+
+<!--            <li><a href="#">shop</a></li>-->
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Catégories
+                </a>
+                <div class="dropdown-menu dropdown-menu-right animated--grow-in" aria-labelledby="navbarDropdownCat">
+                    <a class="fas fa-check-circle dropdown-item" style="font-size: small" th:each="category : ${categories}" th:href="@{/produitInCategory/{id} (id = ${category.id})}" th:text="${category.nom}"></a>
+                    <div class="dropdown-divider"></div>
+                </div>
+            </li>
+
+        </ul>
+
+        <div class="nav-icon" >
+            <form th:action="@{/search/0}" method="get" class="d-none d-sm-inline-block navbar-search" style="margin: 0 15px;">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="search" name="keyword" style="width:490px;height:41px;" placeholder="Entrez Votre Recherche" aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+<!--            <a th:if="${session.username == null}" th:href="@{/login}"><i class="fa fa-user" aria-hidden="true"></i></a>-->
+<!--            <a th:if="${session.username != null}" th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>-->
+
+<!--            <a  th:href="@{/cart}">-->
+<!--                <i class="fa fa-cart-plus" aria-hidden="true">-->
+<!--                <span style="font-size: small; margin-left: -25%;" class="badge badge-pill badge-warning" id="nbPannier" ></span></i>-->
+<!--            </a>-->
+
+            <div class="top-cart-contain" style="display:flex;">
+
+                <div class="mini-cart">
+                    <div>
+                        <a  th:href="@{/cart}">
+                            <i class="fa fa-cart-plus" style="font-size:31px;" aria-hidden="true">
+                                <span style="font-size: small; margin-left: -25%;" class="badge badge-pill badge-warning" id="nbPannier" ></span>
+                            </i>
+                        </a>
+                        <span style="font-size:12px;">MON PANIER</span>
+                    </div>
+                    <div th:if="${shoppingCart != null}">
+                        <div class="top-cart-content" >
+                            <div class="block-subtitle hidden">Articles Recement Ajoutés</div>
+                            <div th:if="${shoppingCart.cartItem == 0}">
+                                <p class="alert-success">Panier Vide</p>
+                            </div>
+                            <ul id="cart-sidebar" class="mini-products-list" >
+                                <li class="item even" th:each="cartItem : ${shoppingCart.cartItem}">
+                                    <a href="shopping_cart.html" title="Product title here" class="product-image">
+                                        <img class="img-fluid" th:src="*{'data:image/jpeg;base64,' + cartItem.produit.photo}" alt="je suis alt" width="65"/></a>
+                                    <div class="product-details">
+                                        <input type="hidden" name="idProduit" th:value="${cartItem.produit.id}">
+                                        <a href="#" title="Remove This Item" th:onclick="'DeleteProduct(\''+${cartItem.produit.id}+'\')'" class="remove-cart"><i class="fas fa-trash"></i></a>
+                                        <p class="product-name">
+                                            <a href="shopping_cart.html" th:text="${cartItem.produit.nom}"></a>
+                                        </p>
+                                        <strong th:text="${cartItem.quantite}"></strong> x <span class="price" th:text=" ${cartItem.produit.prix} + ' Fcfa'"></span> </div>
+                                </li>
+
+                            </ul>
+                            <div class="top-subtotal">totalPrix: <span class="price" th:text = "${subTotal} + 'Fcfa'" id="toutprixtotal"></span></div>
+                            <div class="actions">
+                                <button class="btn-checkout" type="button" th:href="@{/cart}"><i class="fa fa-check"></i><span>Commander</span></button>
+                                <button class="view-cart" type="button" onClick="location.href='shopping_cart.html'"><i class="fa fa-shopping-cart"></i><span>Votre Panier</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <li class="nav-item dropdown no-arrow" style="margin-left: 90px;">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${session.username}"></span>
+                        <img class="img-profile rounded-circle" width="55" src="/images/undraw_profile.svg">
+                    </a>
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                         aria-labelledby="userDropdown">
+                        <a class="dropdown-item" th:if = "${session.username == null}" th:href="@{/login}">
+                            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Se connecter
+                        </a>
+                        <a class="dropdown-item" th:if = "${session.username == null}" th:href="@{/register}">
+                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                            s'enregistrer
+                        </a>
+                        <a class="dropdown-item" th:if = "${session.username != null}" th:href="@{/order}">
+                            <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Ma Commande
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form th:action="@{/logou}" method="post">
+                            <button class="dropdown-item" th:if = "${session.username != null}" type="submit" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                            </button>
+                        </form>
+
+                        <a class="dropdown-item" th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" th:href="@{/admin/AcceuilAdmin}" data-toggle="modal" data-target="#logoutModal">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Administration
+                        </a>
+                    </div>
+                </li>
+            </div>
+
+
+
+
+
+<!--            <select id="selection" class="selectpicker show-tick form-control"  data-placeholder="Sign In" onchange="location = this.value;">-->
+<!--                <option th:text="${session.username != null} ? ${session.username} : 'Authentication'"></option>-->
+<!--                <option th:if = "${session.username == null}" value="http://localhost:8085/login">Sign In</option>-->
+<!--                <option th:if = "${session.username != null}" value="http://localhost:8085/logout">Log out</option>-->
+<!--                <option th:if = "${session.username == null}" value="http://localhost:8085/register" >Sign Up</option>-->
+<!--                 <option th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" value="http://localhost:8085/admin/AcceuilAdmin">Admin</option>-->
+<!--            </select>-->
+        </div>
+        
+    </header>
+
+    
+
+    <script th:src="@{/javascipt/java.js}" type="text/javascript"></script>
+
+    <div layout:fragment="content">
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navBarUser.html">
+<head>
+    
+    <title>Detail</title>
+
+    <script>
+        // Fonction qui appelle l'endpoint Ajax et met à jour l'élément DOM avec la réponse
+        function updateTotalItems() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/cart/nbpanier');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById("nbPannier").textContent = xhr.responseText;
+                    // alert(xhr.responseText);
+                }
+                else {
+                    console.log('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send();
+        }
+
+        // Appel initial de la fonction
+        updateTotalItems();
+
+        // Appel périodique de la fonction toutes les 5 secondes (5000 ms)
+        setInterval(updateTotalItems, 5000);
+
+    </script>
+    <script>
+        function addtocart(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/addToCart/'+id);
+            var params = "id="+id;
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    // alert(xhr.responseText); // affiche le nombre d'articles dans le panier
+                    // Met à jour l'élément DOM affichant le nombre de produits dans le panier
+                    document.getElementById("nbPannier").textContent = xhr.responseText;
+                } else if (xhr.status === 401) { // code 401 : non autorisé
+                    alert(xhr.responseText); // affiche un message demandant à l'utilisateur de se connecter
+                } else {
+                    console.log('Request failed. Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send();
+        }
+
+    </script>
+
+</head>
+<body class="bg-gray-200">
+    <div layout:fragment="content">
+
+
+        <form th:action="@{/cart}" method="get">
+            <div class="alert alert-success" style="margin-top:5%" th:if="${success}">
+                <h4 th:text="${success}"></h4>
+            </div>
+            <section class="col-md-12 row container" style="margin-top: 3%;" th:each=" produit: ${detailproduit}">
+
+                <div class="col-md-6" style="margin-top: 5%;">
+                    <img class=" " th:src = "'data:image/png;base64,' + ${produit.photo}" alt="fff" style="height: 35rem; width: 30rem; margin-left: 20%; ">
+                </div>
+                    <div class="col-md-6" style="height:100%">
+                        <div class="text-center" style="font-weight: bold; font-size: x-large; font-style: italic; ">Caracteristique</div>
+                        <h1 th:text="${produit.description}"></h1>
+                        <div class=" ">
+                            <input type="hidden" th:value="${produit.id}" name="id">
+                            <button type="submit" th:onclick="('addtocart(\'' + ${produit.id} + '\')')" style="background: #51aef0; color : white; font-weight: bold; width: 60%;" class="btn btn-lg ml-5">J'ACHETE</button>
+
+                        </div>
+                         ils ne seront je suis moi Libero tenetur architecto aliquam temporibus rerum nam. Ex, dolor esse? Fugiat nostrum velit rerum, excepturi culpa, sapiente impedit aliquam quam laboriosam error vero unde aut obcaecati iste ex ullam? Dignissimos.
+                        Nulla fugit itaque repudiandae! Voluptate qui voluptatum id assumenda doloribus accusantium vel, voluptas similique repellat libero laudantium repellendus nisi vero? Quod ipsam quibusdam dolorum, fugiat quo nesciunt ea non ipsum!
+                        A velit eaque optio vitae labore nihil quia obcaecati, unde commodi illo repellendus corrupti nemo. Reiciendis porro deserunt eius excepturi voluptatem! Consequuntur numquam delectus sunt incidunt nam iure nostrum cupiditate?
+                        Assumenda, itaque laudantium voluptas quas obcaecati, consectetur tenetur dicta reiciendis explicabo totam neque accusantium, ducimus exercitationem aperiam nobis deserunt. Nobis error cupiditate commodi aperiam explicabo itaque amet tenetur.
+                        niti cupiditate fuga est, consectetur autem optio. Neque aspernatur est, odit adipisci, facilis ipsa tempora ipsam explicabo veritatis, sit tempore aperiam cum.
+                    </div>
+
+            </section>
+        </form>
+
+        <section class="contact">
+            <div class="contact-info">
+                <div class="first-info">
+                    <img src="images/cady.jpg" alt="">
+
+                    <p>3245 Cameroun <br> Tougang</p>
+                    <p>679334567</p>
+                    <p>tyannick19%gmail.com</p>
+
+                    <div class="social-icon">
+                        <a class="btn btn-social-icon btn-facebook"></a>
+                        <a href="#"><i class="fas fa-linkedin" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fas fa-youtube" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-twitch" aria-hidden="true"></i></a>
+                        <a href="#"><i class="fa fa-telegram" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+
+                <div class="second-info">
+                    <h4>Support</h4>
+                    <p>Contact</p>
+                    <p>About Us</p>
+                    <p>About Page</p>
+                    <p>Shopping</p>
+                    <p>Size Guide</p>
+                </div>
+
+                <div class="third-info">
+                    <h4>Shop</h4>
+                    <p>IPhone</p>
+                    <p>Samsung</p>
+                    <p>Techno</p>
+                    <p>Itel</p>
+                    <p>Xiaomi</p>
+                </div>
+
+                <div class="fourth-info">
+                    <h4>Company</h4>
+                    <p>About</p>
+                    <p>Affiliate</p>
+                </div>
+
+                <div class="five">
+                    <h4>Subscibe</h4>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. In sed reiciendis !</p>
+                    <p>tempora mollitia veniam modi architecto, voluptate quis quae eaque sequi porro incidunt molestias, libero quia, cum tempore eum at</p>
+                    <div class="payment">
+                        <ul>
+                            <li><a href="#"><img title="Visa" alt="Visa" src="images/visa.png"></a></li>
+                            <li><a href="#"><img title="Paypal" alt="Paypal" src="images/paypal.png"></a></li>
+                            <li><a href="#"><img title="Discover" alt="Discover" src="images/discover.png"></a></li>
+                            <li><a href="#"><img title="Master Card" alt="Master Card" src="images/master-card.png"></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="end-text">
+            <p>Copyright @2023 All right Reserved. Designd By L'Homme Etrange</p>
+        </div>
+    </div>
+    <!-- endnavbar -->
+    <br><br>
+
+
+
+</body>
+</html>

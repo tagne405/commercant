@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navUser.html">
+<head>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/vendor/css/dataTables.bootstrap4.min.css}">
+	<link rel="stylesheet" type="text/css" href="@{/css/vendor/jquery-ui-1.12.1/jquery-ui.min.css}">
+	<link rel="stylesheet" type="text/css" href="@{/css/vendor/jquery-ui-themes-1.12.1/themes/flick/jquery-ui.min.css}">
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/fonts/css/all.min.css}">
+
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/css/all.css}">
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/css/all.min.css}">
+
+    <link rel="stylesheet" type="text/css" href="" th:href="@{/css/adminCss.css}">
+    <title>Vente</title>
+</head>
+<body class="" style="background-color: rgb(232, 231, 231);">
+
+
+    <div layout:fragment="content">
+
+        <div class=" " id="largerBody" style="margin-left:17%;">
+
+            <section class="body-header">
+                <h1>Enregistre des Produits</h1>
+            </section>
+
+        <!-- <section class="row container"> -->
+            <!-- <div> -->
+                <form th:action="@{/admin/saveProduct}" method="POST" th:object="${Produit}"  enctype="multipart/form-data">
+
+                    <div>
+                        <div class=" " style=" width: 38%; margin: 5% 30%;">
+                            <div class="text-center" style="font-weight: bold; font-size: x-large; font-style: italic; ">Cree un Produit</div>
+                            <div class="mb-3">
+                                <label for="nom" class="form-label">Nom</label>
+                                <input type="name" class="form-control" name="nom" id="" placeholder="joe" th:value="${produit.nom}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="categories" class="form-label">Category</label>
+                                <select name="category" th:value="${produit.Category}" id="categories" class="form-control">
+                                    <option th:value="null">-Select-</option>
+                                    <option th:each=" categories :${categorie}"
+                                            th:value = "${categories.id}"
+                                            th:text="${categories.nom}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea type="text" class="form-control" id="exampleFormControlInput1" name="description" placeholder="name@email.com" th:value="${produit.description}"  required></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <input type="hidden" th:value="${produit.photo}"/>
+                                <label for="fileImage" class="form-label">Photo</label>
+                                <input type="file" class="" id="fileImage" name="image" accept="image/png, image/jpg">
+                            </div>
+                            <div class="mb-3">
+                                <label for="prix" class="form-label">Prix</label>
+                                <input type="number" class="form-control" id="exampleFormControlInput1" name="prix" placeholder="" th:field="${produit.prix}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantite" class="form-label">Quantite</label>
+                                <input type="number" class="form-control" id="quantite" placeholder="" th:field="${produit.quantite}" required>
+                            </div>
+                            <div class="d-grid gap-2 col-6 mx-auto">
+                                <button type="submit" style="background: #e3f2fd; margin-left: 25%; font-size: large; font-weight: bold;" class="btn btn-sm">
+                                    <a  style="text-decoration: none;">CREER</a>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                
+            <!-- </div> -->
+                
+            
+        <!-- </section>     -->
+    </div>
+    <!-- EndCard -->
+
+
+    </div>
+
+    <!-- cardBody -->
+    
+
+    
+    <!-- <script>
+         let arrow=document.querySelectorAll(".arrow");
+        for(var i=0;i<arrow.length;i++){
+            arrow[i].addEventListener("click",(e)=>{
+                let arrowParent=e.target.parentElement.parentElement;
+                console.log(arrowParent);
+                arrowParent.classList.toggle("showMenu");
+               
+            });
+           
+        }
+
+   </script> -->
+        
+</body>
+</html>

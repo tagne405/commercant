@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+              xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+              layout:decorate="navBarUser.html">
+<head>
+
+    <title>connexion</title>
+</head>
+<body class="bg-light">
+
+    <div layout:fragment="content">
+
+        <div class=" " style=" width: 38%; margin: 14% 30%;">
+            <div th:if = "${param.error}" class="text-center alert alert-warning">
+                <p>Mots De Passe Ou UserName Invalide Degage!!</p>
+            </div>
+
+            <div th:if = "${param.logout}" class="text-center alert alert-success">
+                <p>Ce Bon Degage </p>
+            </div>
+
+            <div class="text-center" style="font-weight: bold; font-size: x-large; font-style: italic; ">Connexion</div>
+            <form method="post" th:action="@{/login}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" class="form-control" name="username" placeholder="joe">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mots de Passe</label>
+                    <input type="password" id="password" class="form-control" name="password" placeholder="Password">
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" style="background: #e3f2fd; margin-left: 20%; font-size: 150%; font-weight: bold;" class="btn btn-sm">Connecter</button>
+                </div>
+                <div class="text-center mt-5" style="font-size: larger;">
+                    <a th:href="@{/register}" class="text-dark" style="text-decoration: none">cree un compte</a>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+    
+        
+
+    
+    <script th:src="@{/javascipt/java.js}" type="text/javascript"></script>
+</body>
+</html>

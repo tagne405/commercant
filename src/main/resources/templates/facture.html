@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prévisualisation de la facture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .invoice-header {
+            text-align: left;
+            margin:0px 0px 30px 10%;
+        }
+
+        .invoice-header img {
+            max-width: 150px;
+            margin : 50px 0px 10px 0px;
+        }
+
+        .invoice-header h1 {
+            /*margin: 0;*/
+            font-size: 24px;
+        }
+
+        .invoice-header p {
+            margin: 0;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .company-info {
+            margin-top: 20px;
+            margin-left:10%;
+        }
+
+        .company-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .invoice-details {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .invoice-details table {
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        .invoice-details th,
+        .invoice-details td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .invoice-details th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .invoice-details tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .invoice-totals {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .invoice-totals table {
+            width: 50%;
+            margin-left: auto;
+            margin-right: 10%;
+        }
+
+        .invoice-totals th,
+        .invoice-totals td {
+            padding: 8px;
+            border: none;
+        }
+
+        .invoice-totals th {
+            font-weight: bold;
+        }
+
+        .invoice-totals td:last-child {
+            text-align: right;
+        }
+
+        #imprimerBtn {
+            background-color: #0b93d5;
+            font-size:large;
+            margin-left: 90%;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media print{
+            #imprimerBtn{
+                display:none;
+            }
+        }
+    </style>
+</head>
+<body >
+<div class="invoice-header">
+    <img src="/imagerie/logo.png" alt="Logo Market">
+    <h1>Facture</h1>
+    <p>Lieu de direction : Tougang, Bafoussam</p>
+</div>
+
+<div class="company-info">
+    <p>SONA Enterprise</p>
+    <p>Adresse de l'entreprise</p>
+    <p>Téléphone : 694179898</p>
+    <p>Email : sona@entreprise.com</p>
+</div>
+
+<div class="invoice-details" th:each="order : ${orders}">
+    <h2>Nom <r  th:text="${order.customer.firstName}"></r></h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Quantité</th>
+            <th>Article</th>
+            <th>Description</th>
+            <th>Prix unitaire</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="article : ${detail}">
+            <td th:text="${article.quantite}"></td>
+            <td th:text="${article.produit.nom}"></td>
+            <td th:text="${article.produit.description}"></td>
+            <td th:text="${article.produit.prix}"></td>
+            <td th:text="${article.produit.prix * article.quantite}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Facture n°1234</p>
+    <p>Date de crdéation : 15/09/2023</p>
+</div>
+
+<div class="invoice-totals" th:each="order : ${orders}">
+    <table>
+        <tr>
+            <th>Total HT</th>
+            <td th:text="${order.prixTotal}"></td>
+        </tr>
+        <tr>
+            <th>TVA (19.25%)</th>
+            <td th:text="${(order.prixTotal * 19.25)/100}"></td>
+        </tr>
+        <tr>
+            <th>Total TTC</th>
+            <td th:text="${order.prixTotal +(order.prixTotal * 19.25)/100}">78.00 €</td>
+        </tr>
+    </table>
+</div>
+<a th:href="@{/}">retour acceuil</a>
+<button id="imprimerBtn">Imprimer</button>
+
+
+<script>
+    // document.getElementById("imprimerBtn").addEventListener("click", function() {
+    //     window.print();
+    // });
+    //
+    // window.onafterprint = function() {
+    //     document.getElementById("imprimerBtn").style.display = "block";
+    // };
+
+    // Fonction pour gérer le clic sur le bouton d'impression
+    document.getElementById("imprimerBtn").addEventListener("click", function() {
+        // Masquer le bouton d'impression
+        //this.classList.add(".hidden");
+
+        // Lancer l'impression
+        window.print();
+    });
+
+    // Afficher le bouton d'impression au chargement de la page
+    window.addEventListener("load", function() {
+
+        document.getElementById("imprimerBtn").classList.remove(".hidden");
+
+    });
+</script>
+</body>
+</html>

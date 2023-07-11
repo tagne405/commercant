@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navBarUser.html">
+<head>
+    
+    <title>connexion</title>
+</head>
+<body class="bg-light">
+
+    <div layout:fragment="content">
+
+      <div class="container col-md-5 offset-3" style="margin-top: 10%;">
+        <div class="text alert alert-warning" th:if = "${error}">
+          <h4 th:text="${error}"></h4>
+        </div>
+        <div class="alert alert-succes" th:if = "${success}">
+          <h4 th:text="${success}"></h4>
+        </div>
+           <form th:action="@{/update-infor}" method="put" name="signupForm" id="signupForm" th:object="${customer}">
+              <h2 class=" text-center">
+                  <i > Information Personnel</i>
+              </h2>
+    
+                <div class="inputDiv">
+                  <label class="form-Label" for="firstname"> Nom * </label>
+                  <input class="form-control" type="text" th:field = "*{firstName}"  id="firstname" name="firstname" readonly>
+                </div>
+                
+                <div class="inputDiv">
+                  <label class="form-Label" for="lastname">Prenom *</label>
+                  <input class="form-control" type="text" id="lastname" th:field = "*{lastName}" name="lastname" readonly>
+                </div>
+                
+                <div class="inputDiv">
+                  <label class="form-Label" for="username">Nom d'utilisateur *</label>
+                  <input class="form-control" type="text" id="username" th:field = "*{username}" name="username" readonly>
+                </div>
+    
+                <div class="inputDiv">
+                  <label class="form-Label" for="telephone">Numero de Telephone *</label>
+                  <input class="form-control" type="number" id="telephone" th:field = "*{telephone}" name="telephone">
+                </div>
+    
+                <div class="inputDiv">
+                  <label class="form-label" for="address">Address *</label>
+                  <input class="form-control" type="text" id="address" th:field = "*{address}" name="address">
+                </div>
+    
+                <div class="inputDiv">
+                  <label class="form-Label" for="city">ville *</label>
+                  <input class="form-control" type="text" id="city" th:field = "*{city}" name="city">
+                </div>
+              
+                <div class=" ">
+                  <button type="submit" id="submitButton" class="bg bg-primary btn-lg  mt-4">
+                    <span>Enregister</span>
+                  </button>
+                </div>
+           </form>
+      </div>
+
+    </div>
+
+    
+    
+          
+        
+        
+    
+    <script th:src="@{/javascipt/java.js}" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navBarUser.html">
+<head>
+   
+    <title>Panier</title>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+<!--    <script src="https://www.paypalobjects.com/api/checkout.js"></script>-->
+    <!-- Replace "test" with your own sandbox Business account app client ID -->
+<!--    <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>-->
+
+<!--    update price en totalPrice-->
+    <script>
+        function getTotalPrice() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/prixTotal');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById("toutprixtota").textContent = xhr.responseText +'Fcfa';
+                }
+                else {
+                    console.log('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send();
+        }
+
+        function updatePrice(id,input) {
+            var parent = input.parentNode.parentNode;
+            var prix = parent.querySelector(".price-pr #prix").dataset.prix;
+            var quantite = parent.querySelector(".quantity-box .quantite").value.trim();
+            var prixvente = parseFloat(prix) * parseInt(quantite);
+
+            parent.querySelector(".total-pr .prixtotal").innerHTML = prixvente + "Fcfa";
+
+            var url =  '/update-cart/'+id+'/'+prixvente+'/'+quantite;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if(xhr.status === 200){
+                    getTotalPrice();
+                }
+            };
+            xhr.send();
+        }
+    </script>
+
+    <script>
+        function deleteProduit(id) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/delete-cart/' + id);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    showCustomAlert();
+                    // Reload the cart data and update the table
+                    let cartTable = document.querySelector("body");
+                    setTimeout(function () {
+                        let xhr = new XMLHttpRequest();
+                        xhr.open('GET', '/cart');
+                        xhr.onload = function () {
+                            if (xhr.status === 200) {
+                                cartTable.innerHTML = xhr.responseText;
+                            }
+                        };
+                        xhr.send();
+                    }, 2000);
+                }
+            };
+            xhr.send();
+        }
+
+        function showCustomAlert() {
+            var alert = document.getElementById("customAlert");
+            alert.classList.add("active");
+
+            setTimeout(function () {
+                alert.classList.remove("active");
+            }, 3000);
+        }
+    </script>
+
+
+    <!--delete item in cart-->
+<!--    <script>-->
+<!--        function deleteProduit(id) {-->
+<!--            var xhr = new XMLHttpRequest();-->
+<!--            xhr.open('GET', '/delete-cart/'+id);-->
+<!--            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');-->
+<!--            xhr.onload = function() {-->
+<!--                if(xhr.status === 200){-->
+<!--                    toastr.options.timeOut = 2000; // 2 seconds-->
+<!--                    toastr.options.progressBar = true;-->
+<!--                    toastr.options.extendedTimeOut = 1000; // 1 second extension on hover-->
+<!--                    toastr.success("suppression reussie");-->
+<!--                    // reload the cart data and update table-->
+<!--                    let cartTable = document.querySelector("body");-->
+<!--                    // alert(cartTable);-->
+<!--                    setTimeout(function(){-->
+<!--                        let xhr = new XMLHttpRequest();-->
+<!--                        xhr.open('GET', '/cart');-->
+<!--                        xhr.onload = function() {-->
+<!--                            if(xhr.status === 200) {-->
+<!--                                cartTable.innerHTML = xhr.responseText;-->
+<!--                            }-->
+<!--                        };-->
+<!--                        xhr.send();-->
+<!--                    },2000);-->
+<!--                }-->
+<!--            };-->
+<!--            xhr.send();-->
+<!--        }-->
+<!--    </script>-->
+<style>
+    .alert {
+        position: fixed;
+        top: 20%;
+        font-size: large;
+        right: -100%;
+        transform: translate(0, -50%);
+        background-color: #f34c4c;
+        color: #fff;
+        padding: 30px;
+        border-radius: 4px;
+        transition: right 0.3s;
+    }
+
+    .alert.active {
+        right: 20px;
+    }
+
+</style>
+
+</head>
+<body>
+    <div layout:fragment="content">
+
+        <script src="/css/vendor/js/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+        <section class="col-md-12 row container" style="margin-top: 3%;" >
+            <div th:if="${check}" class="text-center alert-warning col-md-6 offset-3">
+                <H4 th:text="${check}"></H4>
+            </div>
+            <div th:if="${delete}" class="text-center alert-warning col-md-6 offset-3">
+                <H4 th:text="${delete}"></H4>
+            </div>
+
+            <div class="alert" id="customAlert">
+                Suppression réussie
+            </div>
+
+            <div class="table-main table-responsive container" th:if="${check == null}">
+            <table class="table" id="tablet">
+                <thead>
+                <tr>
+                    <th style="width: 20%;">Photo</th>
+                    <th>Produit Nom</th>
+                    <th>Prix</th>
+                    <th>Quantite</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cartItem : ${shoppingCart.cartItem}">
+
+                    <td class="thumbnail-img" >
+                        <a href="#">
+                            <img class="img-fluid"
+                                 th:src="*{'data:image/jpeg;base64,' + cartItem.produit.photo}" alt="" width="100"/>
+                        </a>
+                    </td>
+                    <td class="name-pr">
+                        <p style="font-size: small;" th:text="${cartItem.produit.nom}"></p>
+                    </td>
+                    <td class="price-pr">
+                        <p th:text=" ${cartItem.produit.prix} + 'Fcfa'" id="prix" th:data-prix="${cartItem.produit.prix}"></p>
+                    </td>
+                        <td class="quantity-box">
+                            <input type="hidden" name="id" th:value="${cartItem.produit.id}">
+                            <input type="number" th:onchange="'updatePrice(\''+${cartItem.produit.id} +'\',this)'" class="quantite" size="4" th:value="${cartItem.quantite}"
+                                                        name="quantite" min="0" step="1" >
+                        </td>
+                        <td class="total-pr">
+                            <p th:text=" ${cartItem.prixTotal} + 'Fcfa'" class="prixtotal"></p>
+<!--                            <p th:text="${cartItem.produit.prix * cartItem.quantite} + 'Fcfa'" id="prixtotal"></p>-->
+                        </td>
+                        <td class="remove-pr" style="display: flex;">
+                            <input type="hidden" name="idProduit" th:value="${cartItem.produit.id}">
+                            <button type="button" th:onclick="'deleteProduit(\''+${cartItem.produit.id}+'\')'"  class="btn btn-danger">
+                                Supprimer
+                            </button>
+                        </td>
+
+                </tr>
+                </tbody>
+                <tfooter>
+                    <tr>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td ></td>
+                        <input type="hidden" th:text="${subTotal}" id="tout">
+                        <td style="font-weight: bold; font-size: large; " th:text = "${subTotal} + 'Fcfa'" id="toutprixtota"></td>
+                        <td>
+                            <a th:href="@{/checkout}" type="button" class="ml-auto btn hvr-hover">Commander</a>
+                        </td>
+                    </tr>
+                </tfooter>
+            </table>
+        </div>
+
+
+
+<!--            <div id="paypal-button-container"></div>-->
+            <div id='paypal-button'></div>
+
+
+             <!-- Set up a container element for the button -->
+<!--            <script>-->
+<!--                paypal.Buttons({-->
+<!--                    createOrder() {-->
+<!--                        // This function sets up the details of the transaction, including the amount and line item details.-->
+<!--                        return fetch("/my-server/create-paypal-order", {-->
+<!--                            method: "POST",-->
+<!--                            headers: {-->
+<!--                                "Content-Type": "application/json",-->
+<!--                            },-->
+<!--                            body: JSON.stringify({-->
+<!--                                cart: [-->
+<!--                                    {-->
+<!--                                        sku: "YOUR_PRODUCT_STOCK_KEEPING_UNIT",-->
+<!--                                        quantity: "YOUR_PRODUCT_QUANTITY"-->
+<!--                                    }-->
+<!--                                ]-->
+<!--                            })-->
+<!--                        });-->
+<!--                    },-->
+<!--                    onApprove(data) {-->
+<!--                        // This function captures the funds from the transaction.-->
+<!--                        return fetch("/my-server/capture-paypal-order", {-->
+<!--                            method: "POST",-->
+<!--                            body: JSON.stringify({-->
+<!--                                orderID: data.orderID-->
+<!--                            })-->
+<!--                        })-->
+<!--                            .then((response) => response.json())-->
+<!--                            .then((details) => {-->
+<!--                                // This function shows a transaction success message to your buyer.-->
+<!--                                alert('Transaction completed by ' + details.payer.name.given_name);-->
+<!--                            });-->
+<!--                    }-->
+<!--                }).render('#paypal-button-container');-->
+<!--            </script>-->
+
+            <!-- Paypal Express -->
+            <script>
+                paypal.Button.render({
+                    env: 'sandbox', // change for production if app is live,
+
+                    client: {
+                        sandbox:    'ASb1ZbVxG5ZFzCWLdYLi_d1-k5rmSjvBZhxP2etCxBKXaJHxPba13JJD_D3dTNriRbAv3Kp_72cgDvaZ',
+                        //production: 'AaBHKJFEej4V6yaArjzSx9cuf-UYesQYKqynQVCdBlKuZKawDDzFyuQdidPOBSGEhWaNQnnvfzuFB9SM'
+                    },
+
+                    commit: true, // Show a 'Pay Now' button
+
+                    style: {
+                        color: 'gold',
+                        size: 'small'
+                    },
+
+                    payment: function(data, actions) {
+                        return actions.payment.create({
+                            payment: {
+                                transactions: [
+                                    {
+                                        //total purchase
+                                        amount: {
+                                            total: (parseFloat(document.getElementById("toutprixtotal").textContent)).toFixed(2),
+                                            currency: 'USD'
+                                        }
+                                    }
+                                ]
+                            }
+                        });
+                    },
+
+                    onAuthorize: function(data, actions) {
+                        return actions.payment.execute().then(function(payment) {
+                            window.location = '/payer/?pay='+payment.id;
+                        });
+                    },
+
+                }, '#paypal-button');
+            </script>
+        
+    </section>
+
+    </div>
+    <!-- endnavbar -->
+    <br><br>
+
+
+
+    <script th:src="@{/javascipt/java.js}" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <link rel="shortcut icon" href="/images/carte.jpg">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/vendor/css/dataTables.bootstrap4.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/vendor/jquery-ui-1.12.1/jquery-ui.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/vendor/jquery-ui-themes-1.12.1/themes/flick/jquery-ui.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/vendor/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/vendor/fonts/css/all.min.css}">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/vendor/css/all.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/vendor/css/all.min.css}">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminCss.css}">
+    <title>Admin</title>
+</head>
+<body class="" style="background-color: rgb(232, 231, 231);">
+<!-- navbar -->
+    <div class="position-fixed " style="width: 100%; height: 50px; background-color: rgb(105, 105, 182); z-index: 200;">
+        <span><i class="fas fa-user-circle fa-lg text-white" style="margin-top: 1%;margin-left: 2%;" id="logo"></i></span>
+        <span class=" text-white" style="margin-left: 1%;" id="envol"></span>
+        
+        <button class="toggle" type="button" style="background-color:rgb(105, 105, 182); border-style: none; font-size: 25px; margin-left: 15%;">
+            <i class="fa fa-list text-white" aria-hidden="true" onclick="largeBody();"></i>
+        </button>
+
+        <span class="" style="margin-left: 60%;">
+            <i th:if="${session.username == null}" th:href="@{/login}" class="fa fa-user text-white mr-3" aria-hidden="true" style="font-size: 25px; "></i>
+            <a th:if="${session.username != null}" th:href="@{/logou}">
+                <i class="fa fa-sign-out text-white mr-3" aria-hidden="true" style="font-size: 25px; "></i>
+            </a>
+            <i class="fa fa-bell text-white " aria-hidden="true" style="font-size: 25px;"></i>
+            <a class="badge badge-warning" th:href="@{/index}"><h5>Vitrine</h5></a>
+        </span>
+    </div>
+<!-- Endnavbar     -->
+
+<section class="col-md-12 ">
+    <!-- sidebar -->
+    <section class="sidebar col-md-2">
+        <div class="position-fixed ">
+            <img src="/images/head.png" alt="envoler" class="img-fluid mt-3 " style=" height: 5rem; border-radius: 100%;">
+        </div>
+            <ul class="nav-links ">
+                <li>
+                    <a th:href="@{/admin/AcceuilAdmin}">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <span class="link_name">Acceuil</span>
+                    </a>    
+                </li>
+                <li>
+                    <a th:href="@{/admin/order}">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span class="link_name">Commande</span>
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/admin/user}">
+                        <i class="fa fa-briefcase" aria-hidden="true"></i>
+                        <span class="link_name">Utilisateurs</span>
+                    </a>  
+                </li>    
+                <li>
+                    <div class="icon-link">
+                        <a href="#">
+                            <i class="fa fa-pushed" aria-hidden="true"></i>
+                            <span class="link_name">Produit</span>
+                        </a>
+                            <i class="fas fa-angle-right arrow"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a class="link_name" href="#">Produit</a></li>
+                        <li><a th:href="@{/admin/category}">Category</a></li>
+                        <li><a th:href="@{/admin/listeProduit}">Liste Produit</a></li>
+                    </ul>   
+                </li>
+            </ul>
+    </section><br><br>
+    <!-- endSidebar -->
+
+    <script type="text/javascript" th:src="@{/css/vendor/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/css/vendor/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/css/vendor/js/jquery.dataTables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/css/vendor/js/dataTables.bootstrap4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/css/vendor/jquery-ui-1.12.1/jquery-ui.min.js}"></script>
+
+
+    
+    <div layout:fragment="content">
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navUser.html">
+
+<head>
+
+    <title>Vente</title>
+
+<!--    <script>-->
+<!--        function DeleteCat(id) {-->
+<!--            var xhr = new XMLHttpRequest();-->
+<!--            xhr.open('GET', '/admin/delete-category?id='+id);-->
+<!--            var params = "id="+id;-->
+<!--            xhr.onload = function() {-->
+<!--                if (xhr.status === 200) {-->
+<!--                    // alert(xhr.responseText); // affiche le nombre d'articles dans le panier-->
+<!--                    // Met à jour l'élément DOM affichant le nombre de produits dans le panier-->
+
+<!--                    // toastr.success("Le produit a été ajouté au panier.");-->
+<!--                    //-->
+<!--                    // setTimeout(function() {-->
+<!--                    //     laodPage();-->
+<!--                    // }, 3000);-->
+
+<!--                } else if (xhr.status === 401) { // code 401 : non autorisé-->
+<!--                    alert(xhr.responseText); // affiche un message demandant à l'utilisateur de se connecter-->
+<!--                } else {-->
+<!--                    console.log('Request failed. Returned status of ' + xhr.status);-->
+<!--                }-->
+<!--            };-->
+<!--            xhr.send();-->
+<!--        }-->
+<!--    </script>-->
+
+
+</head>
+
+<body class="" style="background-color: rgb(232, 231, 231); font-size: small;">
+   
+
+        <div layout:fragment="content">
+
+            <div class="container-fluid">
+            <section class="body-header">
+                <h1>Categories</h1>
+            </section>
+
+            <section class="row container">
+
+
+                <div class="container bg-white" id="hideBody" style="border-radius: 5px;">
+                    <div th:if="${size == 0}">
+                        <p>Degage y'a pas de Categories</p>
+                    </div>
+
+                    <div th:if="${Success}" class="text-center alert alert-success">
+                        <h2 th:text="${Success}"></h2>
+                    </div>
+                    <div th:if="${Failed}" class="text-center alert alert-danger">
+                        <p th:text="${Failed}"></p>
+                    </div>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                            data-whatever="@mdo">Add Category</button>
+                    </div>
+
+                    <table id="example" class="table table-sm table-striped table-bordered shadow-lg p-3 mb-5 rounded" th:if="${size > 0}">
+                        <thead>
+                            <tr>
+                                <th>Indexo</th>
+                                <th>Nom</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="category: ${categorie}">
+                                <td th:text="${category.id}"></td>
+                                <td th:text="${category.nom}"></td>
+                                <td>
+<!--                                    th:onclick="('DeleteCat(\'' + ${category.id} + '\')')"-->
+                                    <a th:if="${category.is_activated} == true"  th:href="@{/admin/delete-category(id = ${category.id})}" class="btn btn-warning">Suppression</a>
+                                    <a th:if="${category.is_activated} == false" th:href="@{/admin/enable-category(id = ${category.id})}" class="btn btn-primary">Enabled</a>
+                                    <a id="editButton" class="btn btn-primary" th:href="@{/admin/findById(id=${category.id})}" >Modifier</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </section>
+
+            <!-- save category -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <form th:action="@{/admin/add-category}" method="POST" th:object="${categoryNouveau}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">New Category</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="recipient-name" class="col-form-label">Nom:</label>
+                                    <input type="text" class="form-control" th:field="*{nom}" id="recipient-name">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- End save -->
+            <!-- edit category -->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalExample" aria-hidden="true">
+                <form th:action="@{/admin/update-category}" method="PUT">
+                     <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" >modifier Category</h5>
+                            </div>
+                            
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="idEdit" class="col-form-label">id:</label>
+                                    <input type="text" class="form-control" id="idEdit" name="id" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nameEdit" class="col-form-label">Nom:</label>
+                                    <input type="text" class="form-control" id="nameEdit" name="nom">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- end edit -->
+
+            <!-- EndCard -->
+
+        </div>
+
+
+</body>
+
+
+
+
+
+
+</html>

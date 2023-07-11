@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navBarUser.html">
+<head>
+    
+    <title>connexion</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Afficher le message dans un Sweet Alert
+            var message = document.getElementById('message').value;
+            if (message) {
+                Swal.fire({
+                    icon: 'success',
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+            }
+        });
+    </script>
+</head>
+
+<body class="bg-light">
+    <div layout:fragment="content">
+        <section style="margin-top: 5%">
+            <input type="hidden" id="message" th:value="${message}">
+            <div class="container">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th >Date Commande</th>
+                            <th>Date Livraison</th>
+                            <th>Status De la Commande</th>
+                            <th>Total Prix</th>
+                            <th>Payment Methode</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each=" order: ${orders}">
+                            <td>
+                                <span><b th:text="${order.orderDate}"></b></span>
+                            </td>
+                            <td class="name-pr" th:if="${order.dateLivraison != null}">
+                                <p  th:text="${order.dateLivraison}"></p>
+                            </td>
+                            <td class="name-pr" th:if="${order.dateLivraison == null}">
+                                <p > EN ATTENTE...</p>
+                            </td>
+                            <td class="price-pr">
+                                <p th:text="${order.statusOrdre}"></p>
+                            </td>
+                            <td class="total-pr">
+                                <p style="color: red" th:text="${order.prixTotal + 'Fcfa'}"></p>
+                            </td>
+                            <td class="total-pr" style="color: black">
+                                <span>Credit Cart</span>
+                            </td>
+                            <input type="hidden" th:value="${order.id}"/>
+                            <td style="display: flex;">
+                                <button type="submit" name="action" value="delete" title="Delete"
+                                        class="btn btn-warning">Supprimer
+                                </button>
+                                <a type="submit" title="Delete" th:href="@{/facture(id=${order.id})}"
+                                                 class="btn btn-warning">Imprimer Facture
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+
+    </div>
+
+<!-- Update Personal Information -->
+
+
+<script th:src="@{/javascipt/java.js}" type="text/javascript"></script>
+</body>
+</html>

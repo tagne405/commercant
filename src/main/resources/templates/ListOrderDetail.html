@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="navUser.html">
+
+<head>
+    
+    <title>Vente</title>
+</head>
+
+<body class="" style="background-color: rgb(232, 231, 231);">
+
+    
+    <div layout:fragment="content">
+
+        <!-- cardBody -->
+        <div class=" " id="largerBody" style="margin-left:17%;">
+
+            <section class="body-header">
+                <h1>Detail de la Commande</h1>
+            </section>
+
+            <!-- <section class="row container"> -->
+            <!-- <div> -->
+            <div class="container bg-white pt-4 shadow-lg p-3 mb-5 rounded" id="hideBody" style="border-radius: 5px;">
+                <div>
+                   
+                    <div th:if="${success}" >
+                        <p th:text="${success}" class="text-center alert alert-success"></p>
+                    </div>
+                    <div th:if="${failed}">
+                        <h3 th:text="${failed}" class="text-center alert alert-warning"></h3>
+                    </div>
+                    <div th:if="${vide}">
+                        <h4 class="text-center alert alert-warning" th:text="${vide}"></h4>
+                    </div>
+                </div>
+                <table id="example" class="table table-striped table-bordered " style="width:100%; height: 10rem; font-size: smaller;">
+
+                    <thead>
+                        <tr >
+                            <th>id</th>
+                            <th >Date de Commande</th>
+                            <th>Nom</th>
+                            <th>Photo</th>
+                            <th>Quantite</th>
+                            <th>NomClient</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr th:each=" p: ${orderDetail}">
+                            <td th:text="${p.id}"></td>
+                            <td th:text="${p.order.orderDate}"></td>
+                            <td th:text="${p.produit.nom}"></td>
+                            <td><img src="" style="width: 30%; height: 70%;" th:src = "'data:image/jpg;base64,' + ${p.produit.photo}" alt="lol"></td>
+                            <td th:text="${p.quantite}"></td>
+<!--                            <td ><img src="" style="width: 30%; height: 70%;" th:src = "'data:image/jpg;base64,' + ${p.produit.photo}" alt="lol"></td>-->
+                            <td th:text="${p.order.customer.firstName}"></td>
+
+                        </tr>
+
+                </table>
+
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+</body>
+
+
+
+</html>
