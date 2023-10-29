@@ -143,4 +143,13 @@ public class ProduitService {
         Page<Produit> produitPage = produitRepository.pageProduit(pageable);
         return produitPage;
     }
+
+    //reduction de la quantite dans la bd
+    public void UpdateQuantite(Long id,int qte){
+        Produit produit = produitRepository.findById(id).orElse(null);
+        int qte2 = produit.getQuantite();
+        int qteTotal = qte2-qte;
+        produit.setQuantite(qteTotal);
+        produitRepository.save(produit);
+    }
 }

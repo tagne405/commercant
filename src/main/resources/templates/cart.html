@@ -27,26 +27,82 @@
             xhr.send();
         }
 
-        function updatePrice(id,input) {
+        // function updateQuantity(id,quantity) {
+        //     var url = '/update-quantity/' + id + '/' + quantity;
+        //
+        //     var xhr = new XMLHttpRequest();
+        //     xhr.open('POST', url);
+        //     xhr.setRequestHeader('Content-type', 'application/json');
+        //     xhr.onload = function() {
+        //         alert("o1k");
+        //         if (xhr.status === 200) {
+        //             var response = JSON.parse(xhr.responseText);
+        //             alert(response.message);
+        //         }
+        //     };
+        //     xhr.send();
+        // }
+
+
+        function updatePrice(id, input) {
             var parent = input.parentNode.parentNode;
-            var prix = parent.querySelector(".price-pr #prix").dataset.prix;
-            var quantite = parent.querySelector(".quantity-box .quantite").value.trim();
-            var prixvente = parseFloat(prix) * parseInt(quantite);
+            var stockTotal = parseInt(document.getElementById("max").value);
+            var quantite = parseInt(document.querySelector('.quantite').value);
 
-            parent.querySelector(".total-pr .prixtotal").innerHTML = prixvente + "Fcfa";
+            if (quantite > stockTotal) {
+                var quantityInput = parent.querySelector('.quantite');
+                quantityInput.value = stockTotal;
+                // input.value = stockTotal;
+                alert("La quantité saisie dépasse le stock disponible.");
+            }
 
-            var url =  '/update-cart/'+id+'/'+prixvente+'/'+quantite;
+            var prix = parseFloat(parent.querySelector(".price-pr #prix").dataset.prix);
+            var prixvente = prix * quantite;
+
+            parent.querySelector(".total-pr .prixtotal").textContent = prixvente + "Fcfa";
+
+            // updateQuantity(id,quantite);
+            var url = '/update-cart/' + id + '/' + prixvente + '/' + quantite;
 
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url);
             xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             xhr.onload = function() {
-                if(xhr.status === 200){
+                if (xhr.status === 200) {
                     getTotalPrice();
                 }
             };
             xhr.send();
         }
+
+        //
+        // function submitOrder() {
+        //     var products = [];
+        //     var rows = document.querySelectorAll('.table tbody tr');
+        //
+        //     rows.forEach(function(row) {
+        //         var id = row.getAttribute('data-id');
+        //         var quantity = row.querySelector('.quantite').value;
+        //
+        //         var product = {
+        //             id: id,
+        //             quantity: quantity
+        //         };
+        //
+        //         products.push(product);
+        //     });
+        //
+        //     // Envoie de l'objet JSON vers l'endpoint /checkout en utilisant une requête AJAX
+        //     var xhr = new XMLHttpRequest();
+        //     xhr.open('POST', '/checkout');
+        //     xhr.setRequestHeader('Content-type', 'application/json');
+        //     xhr.onload = function() {
+        //         // Gérer la réponse de l'endpoint
+        //     };
+        //     xhr.send(JSON.stringify(products));
+        // }
+
+
     </script>
 
     <script>
@@ -82,6 +138,8 @@
                 alert.classList.remove("active");
             }, 3000);
         }
+
+
     </script>
 
 
@@ -167,7 +225,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="cartItem : ${shoppingCart.cartItem}">
+                <tr th:each="cartItem : ${shoppingCart.cartItem}" th:data-id="${cartItem.produit.id}">
 
                     <td class="thumbnail-img" >
                         <a href="#">
@@ -183,7 +241,8 @@
                     </td>
                         <td class="quantity-box">
                             <input type="hidden" name="id" th:value="${cartItem.produit.id}">
-                            <input type="number" th:onchange="'updatePrice(\''+${cartItem.produit.id} +'\',this)'" class="quantite" size="4" th:value="${cartItem.quantite}"
+                            <input type="hidden" name="max" id="max" th:value="${cartItem.produit.quantite}">
+                            <input type="number" th:onchange="'updatePrice(\''+${cartItem.produit.id} +'\',this)'" th:data-quantite="${cartItem.produit.quantite}" size="4" th:value="${cartItem.quantite}"
                                                         name="quantite" min="0" step="1" >
                         </td>
                         <td class="total-pr">
@@ -209,7 +268,8 @@
                         <input type="hidden" th:text="${subTotal}" id="tout">
                         <td style="font-weight: bold; font-size: large; " th:text = "${subTotal} + 'Fcfa'" id="toutprixtota"></td>
                         <td>
-                            <a th:href="@{/checkout}" type="button" class="ml-auto btn hvr-hover">Commander</a>
+<!--                            th:onclick="submitOrder()"-->
+                            <a th:href="@{/checkout}"  type="button" class="ml-auto btn hvr-hover">Commander</a>
                         </td>
                     </tr>
                 </tfooter>

@@ -26,8 +26,6 @@
 
             <section class="body-header">
                 <h1>Liste des Produits</h1>
-                <div id="test">Liste des Produits</div>
-
             </section>
 
             <!-- <section class="row container"> -->
@@ -93,8 +91,8 @@
                                   </div>
                             </td>
                             <td style="display: flex;"><a  th:href="@{/admin/updateProduit/{id} (id = ${p.id})}" class="btn btn-primary">Modifier</a>
-                                <a th:if="${p.is_delete == true}" th:href="@{/admin/enabledProduit/{id} (id = ${p.id})}" class="btn btn-warning">Activer</a>
-                                <a th:if="${p.is_delete == false}" th:href="@{/admin/deleteProduit/{id} (id = ${p.id})}" class="btn btn-danger">Suprimer</a>
+                                <a th:if="${p.is_delete == true}" th:href="@{/admin/enabledProduit/{id}/{currentPage}(id = ${p.id},currentPage = ${currentPage})}" class="btn btn-warning">Activer</a>
+                                <a th:if="${p.is_delete == false}" th:href="@{/admin/deleteProduit/{id}/{currentPage}(id = ${p.id},currentPage = ${currentPage})}" class="btn btn-danger">Suprimer</a>
                             </td>
                         </tr>
                 </table>

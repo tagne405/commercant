@@ -62,13 +62,13 @@
                     </div>
                     <div class="mb-3">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                            data-whatever="@mdo">Add Category</button>
+                            data-whatever="@mdo">Ajouter Categorie</button>
                     </div>
 
                     <table id="example" class="table table-sm table-striped table-bordered shadow-lg p-3 mb-5 rounded" th:if="${size > 0}">
                         <thead>
                             <tr>
-                                <th>Indexo</th>
+                                <th>Index</th>
                                 <th>Nom</th>
                                 <th>Action</th>
                             </tr>
@@ -79,8 +79,8 @@
                                 <td th:text="${category.nom}"></td>
                                 <td>
 <!--                                    th:onclick="('DeleteCat(\'' + ${category.id} + '\')')"-->
-                                    <a th:if="${category.is_activated} == true"  th:href="@{/admin/delete-category(id = ${category.id})}" class="btn btn-warning">Suppression</a>
-                                    <a th:if="${category.is_activated} == false" th:href="@{/admin/enable-category(id = ${category.id})}" class="btn btn-primary">Enabled</a>
+                                    <a th:if="${category.is_activated} == true"  th:href="@{/admin/delete-category(id = ${category.id})}" class="btn btn-warning">Desactive</a>
+                                    <a th:if="${category.is_activated} == false" th:href="@{/admin/enable-category(id = ${category.id})}" class="btn btn-primary">Activer</a>
                                     <a id="editButton" class="btn btn-primary" th:href="@{/admin/findById(id=${category.id})}" >Modifier</a>
                                 </td>
                             </tr>

@@ -73,6 +73,7 @@ public class AcceuilController {
 
             ShoppingCart shoppingCart = customer.getShoppingcart();
 
+
             if(shoppingCart != null){
                 session.setAttribute("totalItem", shoppingCart.getTotalItems());
                 double subTotal = shoppingCart.getPrixTotal();

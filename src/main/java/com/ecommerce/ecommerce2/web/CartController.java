@@ -219,4 +219,15 @@ public class CartController {
         }
 
    }
+
+    // Endpoint pour mettre à jour la quantité totale de produit
+    @PostMapping("/update-quantity/{id}/{quantity}")
+    public ResponseEntity<String> updateQuantity(@PathVariable("id") Long id, @PathVariable("quantity") int quantity) {
+        // Code pour mettre à jour la quantité totale de produit dans la base de données
+         produitService.UpdateQuantite(id,quantity);
+
+        // Retournez une réponse avec le statut OK si la mise à jour est réussie
+        return ResponseEntity.ok("La quantité a été mise à jour avec succès.");
+    }
+
 }

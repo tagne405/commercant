@@ -185,9 +185,9 @@
         </div>
 
         <div class="main-text">
-            <h5>Nouvelle Collection</h5>
-            <h1>Nouvelle Collection <br>De materiel</h1>
-            <p>The place to be</p>
+            <h5>Agro Market</h5>
+            <h1>Meilleur Produits <br>Frais Pour Vous</h1>
+            <p>Du Champ A Vos Assiette</p>
 
             <a href="#trending" class="main-btn">Shop Now <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
         </div>
@@ -203,158 +203,48 @@
         <div class="center-text">
             <h2>Liste Des <span>Produits</span> </h2>
         </div>
-        <div class="products">
-            <div th:each=" produit: ${produit}">
-<!--                <form th:action="@{/addToCart}" method="post">-->
-                    <div class="products"  th:each="category : ${categories}"  >
-                        <div class="ligne" th:if="${produit.category.nom == category.nom}">
+        <div class="products" >
+            <div th:each=" produit: ${produit}" >
+                <div class="products" th:each="categories:${categories}">
+                    <div class="ligne" th:if="${produit.category.nom == categories.nom}">
+                        <a th:href="@{/findProduit/{id}(id=${produit.id})}">
+                            <img  th:src = "'data:image/png;base64,' + ${produit.photo}" alt="">
+                        </a>
+                        <div class="ratting">
                             <a th:href="@{/findProduit/{id}(id=${produit.id})}">
-                                <img  th:src = "'data:image/png;base64,' + ${produit.photo}" alt="">
+                                <h4 th:text="${produit.nom}" style="font-size: small;" ></h4>
                             </a>
-                            <div class="ratting">
-                                <a th:href="@{/findProduit/{id}(id=${produit.id})}">
-                                    <h4 th:text="${produit.nom}" style="font-size: small;" ></h4>
-                                </a>
-                            </div>
-                            <div class="product-text">
-                                <h5>Sale</h5>
-                            </div>
-                            <div class="heart-icon">
-                                <a th:href="@{/compare/{id}/{idcat}(id=${produit.id}, idcat=${category.id})}" class="fa fa-chain-broken"></a>
-                            </div>
-                            <div class="product-carte">
-                                <input type="hidden" th:value="${produit.id}" name="id" id="productId">
+                        </div>
+                        <div class="product-text">
+                            <h5>Sale</h5>
+                        </div>
+                        <div class="heart-icon">
+                            <a th:href="@{/compare/{id}/{idcat}(id=${produit.id}, idcat=${produit.category.id})}" class="fa fa-chain-broken"></a>
+                        </div>
+                        <div class="product-carte">
+                            <input type="hidden" th:value="${produit.id}" name="id" id="productId">
 
-                                <h4><button id="addToCart"  th:onclick="('addtocart(\'' + ${produit.id} + '\')')" style="background-color: #27b737; border-style: none; color: white;">Ajouter au Panier</button></h4>
-                            </div>
-                            <div class="ratting">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-half" aria-hidden="true"></i>
-                            </div>
-                            <div class="price">
-                                <h6>Moitie Prix</h6>
-                                <p th:text="${produit.prix} + 'Fcfa'"></p>
-                            </div>
+                            <h4><button id="addToCart"  th:onclick="('addtocart(\'' + ${produit.id} + '\')')" style="background-color: #27b737; border-style: none; color: white;">Ajouter au Panier</button></h4>
+                        </div>
+                        <div class="ratting">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star-half" aria-hidden="true"></i>
+                        </div>
+                        <div class="price">
+                            <h6>Moitie Prix</h6>
+                            <p th:text="${produit.prix} + 'Fcfa'"></p>
                         </div>
                     </div>
-<!--                </form>-->
-            </div>
-            
-        
-            <div class="ligne">
-                <img src="../images/dell-inspiron-15-5000-15.jpg" alt="">
-                <div class="product-text">
-                    <h5>Sale</h5>
-                </div>
-                <div class="heart-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <div class="ratting">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star-half" aria-hidden="true"></i>
-                </div>
-
-                <div class="price">
-                    <h6>Moitie Prix</h6>
-                    <p>100,000 Fcfa</p>
                 </div>
             </div>
-            <div class="ligne">
-                <img src="../images/pc-specialist-vortex-core-ii-gaming-pc.jpg" alt="">
-                <div class="product-text">
-                    <h5>Sale</h5>
-                </div>
-                <div class="heart-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <div class="ratting">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star-half" aria-hidden="true"></i>
-                </div>
 
-                <div class="price">
-                    <h6>Moitie Prix</h6>
-                    <p>100,000 Fcfa</p>
-                </div>
-            </div>
-           
-            <div class="ligne">
-                <img src="../images/large-hp-pavilion-power-580-015na-gaming-pc.jpg" alt="">
-                <div class="product-text">
-                    <h5>Sale</h5>
-                </div>
-                <div class="heart-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <div class="ratting">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star-half" aria-hidden="true"></i>
-                </div>
+        </div>
 
-                <div class="price">
-                    <h6>Moitie Prix</h6>
-                    <p>100,000 Fcfa</p>
-                </div>
-            </div>
-        </div>   
-           
-            <!-- <div class="col-lg-3 col-md-6 special-grid" th:each="produit : ${produit}"
-                 th:if="${produit.category.nom == category.nom} ">
-                <form th:action="@{/add-to-cart}" method="post" >
-                    <div class="produits-single fix">
-                        <div class="box-img-hover">
-                            <img th:src="@{'data:image/jpeg;base64,' + ${produit.photo}}" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <ul>
-                                    <li><a th:href="@{/find-produit/{id}(id = ${produit.id})}" data-toggle="tooltip"
-                                           data-placement="right"
-                                           title="View"><i class="fas fa-eye"></i></a></li>
-                                </ul>
-                                <input type="hidden" th:value="${produit.id}" name="id">
-                                <input type="submit" class="cart" value="Add to Cart">
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4 th:text="${produit.nom}">Almond-Topped Fish</h4>
-                            <h5 th:text="'$' + ${produit.prix}"> $36.00</h5>
-                        </div>
-                    </div>
-                </form>
-            </div> -->
-        <!-- </div> -->
-
-        
-        
     </section>
 
-    
-
-    <!-- Client-Review-section -->
-
-    <!-- <section class="client-reviews">
-        <div class="reviews">
-            <h3>Client Reviews</h3>
-            <img src="head.png" alt="ccc">
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nobis praesentium eaque, repellat odit <br>
-                laborum omnis illum ipsa libero
-                 neque distinctio eos, reiciendis aperiam quis maxime ad fuga voluptatibus hic culpa!</p>
-
-                 <h2>Banlieu Sale</h2>
-                 <p>CEO of CashMarket</p>
-        </div>
-    </section> -->
 
     <!-- update-news-section -->
     <section class="Update-news">
@@ -364,7 +254,7 @@
 
         <div class="update-cart">
             <div class="cart">
-                <img src="images/iphone13.jpg" alt="">
+                <img src="images/1.jpg" alt="">
                 <h5>10 juillet 2023</h5>
                 <h4>let's Start Bring sale on this summer vacation</h4>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores repellendus alias ad enim minus quibusdam laborum autem in iste perferendis tempore quidem </p>
@@ -373,7 +263,7 @@
             </div>
 
             <div class="cart">
-                <img src="images/iphone12.jpg" alt="">
+                <img src="images/2.jpg" alt="">
                 <h5>10 juillet 2023</h5>
                 <h4>let's Start Bring sale on this summer vacation</h4>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores repellendus alias ad enim minus quibusdam laborum autem in iste perferendis tempore quidem </p>
@@ -382,7 +272,7 @@
             </div>
 
             <div class="cart">
-                <img src="images/iphone13.jpg" alt="">
+                <img src="images/3.jpg" alt="">
                 <h5>10 juillet 2023</h5>
                 <h4>let's Start Bring sale on this summer vacation</h4>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores repellendus alias ad enim minus quibusdam laborum autem in iste perferendis tempore quidem </p>

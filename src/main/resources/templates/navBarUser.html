@@ -27,53 +27,6 @@
         }
     </script>
 
-<!--    <script>-->
-<!--        document.addEventListener('DOMContentLoaded', function() {-->
-<!--            // Initialise Toastr-->
-<!--            toastr.options = {-->
-<!--                "positionClass": "toast-center",-->
-<!--                "progressBar": true,-->
-<!--                "showDuration": "300",-->
-<!--                "hideDuration": "1000",-->
-<!--                "timeOut": "2000",-->
-<!--                "extendedTimeOut": "1000",-->
-<!--                "showEasing": "swing",-->
-<!--                "hideEasing": "linear",-->
-<!--                "showMethod": "fadeIn",-->
-<!--                "hideMethod": "fadeOut"-->
-<!--            };-->
-
-<!--            // Ajouter un gestionnaire d'événements "click" au bouton-->
-
-<!--        });-->
-<!--    </script>-->
-
-<!--    <script>-->
-<!--        function addtocart(id) {-->
-<!--            var xhr = new XMLHttpRequest();-->
-<!--            xhr.open('GET', '/addToCart/'+id);-->
-<!--            var params = "id="+id;-->
-<!--            xhr.onload = function() {-->
-<!--                if (xhr.status === 200) {-->
-<!--                    toastr.success("Le produit a été ajouté au panier.");-->
-
-<!--                    setTimeout(function() {-->
-<!--                        laodPage();-->
-<!--                    }, 3000);-->
-
-<!--                } else if (xhr.status === 401) { // code 401 : non autorisé-->
-<!--                    alert(xhr.responseText); // affiche un message demandant à l'utilisateur de se connecter-->
-<!--                } else {-->
-<!--                    console.log('Request failed. Returned status of ' + xhr.status);-->
-<!--                }-->
-<!--            };-->
-<!--            xhr.send();-->
-<!--        }-->
-<!--    </script>-->
-
-
-
-
     <link rel="shortcut icon" href="/images/carte.jpg">
     <link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/css/bootstrap.min.css}">
 	<link rel="stylesheet" type="text/css" href="" th:href="@{/css/vendor/fonts/css/all.min.css}">
@@ -92,7 +45,7 @@
 <body>
 
     <header >
-        <a href="#" class="logo">CASH MARKET</a>
+        <img src="/imagerie/reshot-icon-food-32ZVXF59MT.svg" alt="logo"  class="logo">
         <ul class="navmenu">
             <li><a th:href="@{/index}">Acceuil</a></li>
 
@@ -111,7 +64,7 @@
         </ul>
 
         <div class="nav-icon" >
-            <form th:action="@{/search/0}" method="get" class="d-none d-sm-inline-block navbar-search" style="margin: 0 15px;">
+            <form th:action="@{/search/0}" method="get" class="d-none d-sm-inline-block navbar-search" style="margin: 2% 1% 0% 2%;">
                 <div class="input-group">
                     <input type="text" class="form-control" id="search" name="keyword" style="width:490px;height:41px;" placeholder="Entrez Votre Recherche" aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
@@ -170,7 +123,7 @@
                     </div>
                 </div>
 
-                <li class="nav-item dropdown no-arrow" style="margin-left: 90px;">
+                <li class="nav-item dropdown no-arrow" style="margin-left: 10px;">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 d-none d-lg-inline text-gray-600 small" th:text="${session.username}"></span>
                         <img class="img-profile rounded-circle" width="55" src="/images/undraw_profile.svg">
@@ -220,6 +173,7 @@
         </div>
         
     </header>
+  </br></br></br>
 
     
 

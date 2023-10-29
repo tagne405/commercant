@@ -7,6 +7,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
+
 	</parent>
 	<groupId>com.ecommerce</groupId>
 	<artifactId>ecommerce2</artifactId>
@@ -16,6 +17,7 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 
 
@@ -45,23 +47,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.webjars.bowergithub.codeseven/toastr -->
-		<!--		<dependency>-->
-		<!--			<groupId>org.webjars.bowergithub.codeseven</groupId>-->
-		<!--			<artifactId>toastr</artifactId>-->
-		<!--			<version>2.1.4</version>-->
-		<!--		</dependency>-->
-
-
-		<!--		<dependency>-->
-		<!--			<groupId>org.webjars</groupId>-->
-		<!--			<artifactId>jquery</artifactId>-->
-		<!--			<version>3.6.0</version>-->
-		<!--		</dependency>-->
-
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -118,31 +103,14 @@
 			<version>2.0.27</version>
 		</dependency>
 
-
-		<!--		<dependency>-->
-		<!--    		<groupId>co.notchpayments</groupId>-->
-		<!--    		<artifactId>notchpayments-sdk</artifactId>-->
-		<!--    		<version>3.0.0</version>-->
-		<!--		</dependency>-->
-
-
 	</dependencies>
-
-	<!--	text de mesomb -->
-	<!--	<repositories>-->
-	<!--		<repository>-->
-	<!--			<id>jitpack.io</id>-->
-	<!--			<url>https://jitpack.io</url>-->
-	<!--		</repository>-->
-	<!--	</repositories>-->
-
-
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>3.1.2</version>
 				<configuration>
 					<excludes>
 						<exclude>
@@ -154,5 +122,8 @@
 			</plugin>
 		</plugins>
 	</build>
+
+
+
 
 </project>

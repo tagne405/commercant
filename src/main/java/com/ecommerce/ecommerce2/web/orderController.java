@@ -188,7 +188,7 @@ public class orderController {
             model.addAttribute("error", "tu doit renseigner les informations ");
             return "monCompte";
         } else {
-            model.addAttribute("success", "ce bon Bao tu peut maintenant Payer ton Kakou");
+            model.addAttribute("success", "ce bon Bao tu peut maintenant Payer");
 
             // Ajout de nouvelle methode
             model.addAttribute("customer", customer);

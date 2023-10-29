@@ -1,27 +1,20 @@
 package com.ecommerce.ecommerce2.web;
 
-import java.security.Principal;
-import java.util.List;
-
+import com.ecommerce.ecommerce2.Entity.Category;
+import com.ecommerce.ecommerce2.Entity.Produit;
+import com.ecommerce.ecommerce2.Service.CategoryService;
+import com.ecommerce.ecommerce2.Service.ProduitService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ecommerce.ecommerce2.Entity.Category;
-import com.ecommerce.ecommerce2.Entity.Produit;
-import com.ecommerce.ecommerce2.Service.CategoryService;
-import com.ecommerce.ecommerce2.Service.ProduitService;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class ProduitController {
@@ -103,7 +96,7 @@ public class ProduitController {
         }
         if (imageProduct == null || imageProduct.isEmpty()) {
             attributes.addFlashAttribute("failed", "L'image du produit est manquante.");
-            return "redirect:/admin/listeProduit";
+            return "redirect:/admin/listeProduit/0";
         }
         try {
             produitService.save(imageProduct, produit);
@@ -112,7 +105,7 @@ public class ProduitController {
             attributes.addFlashAttribute("failed", "Erreur lors de l'enregistrement du produit : " + e.getMessage());
         }                        
                                 
-        return "redirect:/admin/listeProduit";
+        return "redirect:/admin/listeProduit/0";
     }
 
 
@@ -140,12 +133,12 @@ public class ProduitController {
             e.printStackTrace();
             attributes.addFlashAttribute("failed", "Modif Echouer Batard");
         }
-        return "redirect:/admin/listeProduit";
+        return "redirect:/admin/listeProduit/0";
 
     }
 
-    @RequestMapping(value = "/admin/enabledProduit/{id}", method = {RequestMethod.PUT,RequestMethod.GET})
-    public String enabledProduit(@PathVariable("id")Long id, RedirectAttributes attributes){
+    @RequestMapping(value = "/admin/enabledProduit/{id}/{page}", method = {RequestMethod.PUT,RequestMethod.GET})
+    public String enabledProduit(@PathVariable("id")Long id,@PathVariable("page")Long page, RedirectAttributes attributes){
 
         try {
             produitService.enabled(id);
@@ -155,12 +148,12 @@ public class ProduitController {
             attributes.addFlashAttribute("failed", "Erreur D'actiavtion vas Chercher L'erreur");
         }
 
-        return "redirect:/admin/listeProduit";
+        return "redirect:/admin/listeProduit/"+ page;
 
     }
 
-    @RequestMapping(value = "/admin/deleteProduit/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String deleteProduit(@PathVariable("id") Long id, RedirectAttributes attributes){
+    @RequestMapping(value = "/admin/deleteProduit/{id}/{page}", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String deleteProduit(@PathVariable("id") Long id,@PathVariable("page")Long page, RedirectAttributes attributes){
         try {
             produitService.deleteById(id);
             attributes.addFlashAttribute("success", "suppression reussie Bao");
@@ -169,7 +162,7 @@ public class ProduitController {
             attributes.addFlashAttribute("failed", "suppression echouer vas Chercher l'erreur");
         }
 
-        return "redirect:/admin/listeProduit";
+        return "redirect:/admin/listeProduit/"+ page;
     }
 
 
@@ -202,6 +195,16 @@ public class ProduitController {
         model.addAttribute("categoryProduit", category);
         return "categoryInProduit";
     }
+
+
+//    @GetMapping("/")
+//    public String CountCategory(Model model){
+////        Long produits = categoryService.countCategories();
+////        System.out.println("lol");
+//////        Integer nbreCategory = produits.intValue();
+////        model.addAttribute("nbreCategory", produits);
+//        return "Acceuil2";
+//    }
 
     //count Product
     public Long countproduct(){

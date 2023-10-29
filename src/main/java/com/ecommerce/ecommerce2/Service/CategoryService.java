@@ -64,4 +64,9 @@ public class CategoryService {
     public List<Category> findAllByActivated(){
         return categoryRepository.findByActivated();
     }
+
+    //count Categories
+    public Long countCategories(){
+        return categoryRepository.count();
+    }
 }
